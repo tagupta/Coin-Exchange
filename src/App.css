@@ -1,9 +1,16 @@
 .App {
   text-align: center;
+  background-color: rgb(13, 13, 49);
+  color: bisque;
 }
-
+.Coin-table{
+  margin: 50px auto 50px auto;
+  display: inline-block;
+  border: 1px solid blanchedalmond;
+  border-collapse: collapse;
+}
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
 }
 
@@ -15,15 +22,16 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 25vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
-
+.App-title{
+  font-size: 36px;
+}
 .App-link {
   color: #61dafb;
 }
