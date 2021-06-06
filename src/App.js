@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Coin from './components/Coin/Coin';
-
+import AccountBalance from './components/AccountBalance/AccountBalance';
 function App() {
   return (
     <div className="App">
@@ -11,7 +11,7 @@ function App() {
           Coin Exchange
         </h1>
       </header>
-      
+      <AccountBalance  amount = {10000}/>
       <table className="Coin-table">
         <thead>
           <tr>
