@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import Coin from '../Coin/Coin';
+import styled from 'styled-components';
 
-import Coin from './components/Coin/Coin'
+const CoinTable = styled.table`
+  margin: 50px auto 50px auto;
+  display: inline-block;
+  border: 1px solid blanchedalmond;
+  border-collapse: collapse;
+`;
+
 
 export default class CoinList extends Component {
     render() {
         return (
-            <table className="Coin-table">
+            <CoinTable >
                 <thead>
                     <tr>
                     <th>Name</th>
@@ -20,8 +28,7 @@ export default class CoinList extends Component {
                     )
                     }
                 </tbody>
-        </table>
+        </CoinTable>
         )
     }
 }
-
