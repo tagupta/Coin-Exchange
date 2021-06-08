@@ -8,12 +8,8 @@ const TableData = styled.td`
 `;
 
 export default class Coin extends Component {
-    constructor(props){
-       super(props);
-       this.handleClick = this.handleClick.bind(this);
-    }
    
-   handleClick(event){
+   handleClick = (event) => {
        event.preventDefault();
        this.props.refresh(this.props.ticker);
    } 
@@ -24,6 +20,7 @@ export default class Coin extends Component {
                 <TableData>{this.props.name}</TableData>
                 <TableData>{this.props.ticker}</TableData>
                 <TableData>${this.props.price}</TableData>
+                {this.props.showBalance ? <TableData>{this.props.balance}</TableData> : null}
                 <TableData>
                 <form action="#" method="POST">
                     <button onClick={this.handleClick}>Refresh</button>

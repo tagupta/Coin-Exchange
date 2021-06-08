@@ -11,13 +11,25 @@ const Section = styled.section`
     padding: 10px;
     border: 1px solid #c3c3c3;
     width: fit-content;
+    line-height: 0.75em;
+`;
+
+const Span = styled.span`
+     margin-right: 10px;
 `;
 
 export default class AccountBalance extends Component {
+  
     render() {
+        const buttonText = this.props.showBalance ? 'Hide Balance':'Show Balance';
+        let content = "";
+        if(this.props.showBalance){
+            content = <Span>Account Balance: ${this.props.amount}</Span>
+        }
         return (
-            <Section className="balance">
-             Account Balance: ${this.props.amount}
+            <Section >
+                {content}
+                <button onClick = {this.props.handleDisplay}>{buttonText}</button>
             </Section>
         );
     }

@@ -1,4 +1,3 @@
-// import './App.css';
 import React from 'react';
 import AccountBalance from './components/AccountBalance/AccountBalance';
 import CoinList from './components/CoinList/CoinList';
@@ -12,55 +11,53 @@ const AppDiv = styled.div`
 `;
 
 class App extends React.Component {
+  state = {
+    pageTitle : "Coin Exchange", 
+    showBalance : false,
+    amount : 10000,
+    coinData : [
+      {
+        name: "Bitcoin",
+        ticker: "BTC",
+        price: 9999.99,
+        balance: 0.5
+      },
+      {
+        name: "Ethereum",
+        ticker: "ETH",
+        price: 299.99,
+        balance: 46
+      },
+      {
+        name: "Tether",
+        ticker: "USDT",
+        price: 2.99,
+        balance: 0
+      },
+      {
+        name: "Dogecoin",
+        ticker: "Doge",
+        price: 0.4095,
+        balance: 1000
+      },
+      {
+        name: "Bitcoin Cash",
+        ticker: "BCH",
+        price: 239.75,
+        balance: 0
+      }
+    ]
+  };
 
-  constructor(props){
-    super(props);
-    this.state = {
-      pageTitle : "Coin Exchange", 
-      amount : 10000,
-      coinData : [
-        {
-          name: "Bitcoin",
-          ticker: "BTC",
-          price: 9999.99
-        },
-        {
-          name: "Ethereum",
-          ticker: "ETH",
-          price: 299.99
-        },
-        {
-          name: "Tether",
-          ticker: "USDT",
-          price: 2.99
-        },
-        {
-          name: "Dogecoin",
-          ticker: "Doge",
-          price: 0.4095
-        },
-        {
-          name: "Bitcoin Cash",
-          ticker: "BCH",
-          price: 239.75
-        }
-      ]
-    };
-    this.handleRefresh = this.handleRefresh.bind(this);
-  }
-
-  handleRefresh(valueChangeTicker){
-     const newCoin = this.state.coinData.map(function({name,ticker,price}){
-     var newPrice = price;
-       if(ticker === valueChangeTicker){
+  handleRefresh = (valueChangeTicker) => {
+     const newCoin = this.state.coinData.map(function(value){
+       var newValue = {...value};
+     
+       if(newValue.ticker === valueChangeTicker){
            const randomPercentage = 0.995 + Math.random() * 0.01;
-           newPrice = newPrice * randomPercentage;
+           newValue.price *= randomPercentage;
        }
-       return {
-         name : name,
-         ticker : ticker,
-         price: newPrice
-       };
+       return newValue;
 
      });
     
@@ -68,12 +65,31 @@ class App extends React.Component {
     
   }
 
+  handleDisplay = () => {
+    this.setState(function(oldState){
+      return {
+        ...oldState,
+        showBalance : !oldState.showBalance
+      };
+    });
+  } 
+
   render(){
     return (
       <AppDiv>
-        <Header title= {this.state.pageTitle}/>
-        <AccountBalance  amount = {this.state.amount}/>
-        <CoinList coinData = {this.state.coinData} refresh = {this.handleRefresh}/>
+        <Header 
+             title= {this.state.pageTitle}
+        />
+        <AccountBalance  
+             amount = {this.state.amount} 
+             showBalance={this.state.showBalance} 
+             handleDisplay = {this.handleDisplay}
+        />
+        <CoinList 
+             coinData = {this.state.coinData} 
+             refresh = {this.handleRefresh} 
+             showBalance={this.state.showBalance}
+        />
       </AppDiv>
     );
   }
