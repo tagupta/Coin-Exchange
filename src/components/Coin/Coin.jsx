@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -7,28 +7,28 @@ const TableData = styled.td`
     width: 25vh;
 `;
 
-export default class Coin extends Component {
+ const Coin = ({id,name,ticker,price,balance,refresh,showBalance}) => {
    
-   handleClick = (event) => {
+   const handleClick = (event) => {
        event.preventDefault();
-       this.props.refresh(this.props.ticker);
+       refresh(id);
    } 
 
-    render() {
+    
         return (
             <tr >
-                <TableData>{this.props.name}</TableData>
-                <TableData>{this.props.ticker}</TableData>
-                <TableData>${this.props.price}</TableData>
-                {this.props.showBalance ? <TableData>{this.props.balance}</TableData> : null}
+                <TableData>{name}</TableData>
+                <TableData>{ticker}</TableData>
+                <TableData>${price}</TableData>
+                {showBalance ? <TableData>{balance}</TableData> : null}
                 <TableData>
                 <form action="#" method="POST">
-                    <button onClick={this.handleClick}>Refresh</button>
+                    <button onClick={handleClick}>Refresh</button>
                 </form>
                 </TableData>
             </tr>
         )
-    }
+    
 }
 
 Coin.propTypes = {
@@ -36,3 +36,4 @@ Coin.propTypes = {
     ticker: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired
 };
+export default Coin;
