@@ -39,7 +39,7 @@ const App = () =>{
     setCoinData(finalCoinData);
   }
 
-  useEffect(async function(){
+  useEffect(function(){
     if(coinData.length === 0){
       componentDidMount();
       }
