@@ -4,6 +4,9 @@ import CoinList from './components/CoinList/CoinList';
 import Header from './components/Header/Header';
 import styled from 'styled-components';
 import axios from 'axios';
+import { Alert } from 'reactstrap';
+
+
 
 const AppDiv = styled.div`
   text-align: center;
@@ -19,15 +22,13 @@ const App = () =>{
   const [showBalance,setShowBalance] = useState(false);
   const [amount , setAmount] = useState(10000);
   const [coinData , setCoinData] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const onDismiss = () => setVisible(false);
 
   const componentDidMount = async() =>{
-    const resp = await axios.get('https://api.coinpaprika.com/v1/coins');
-    const coinIDs = resp.data.slice(0,COIN_COUNT).map(coin => coin.id);
-    const tickerURL = `https://api.coinpaprika.com/v1/tickers/`;
-    const promises = coinIDs.map(id => axios.get(tickerURL + id));
-    const coinData = await Promise.all(promises);
-    const finalCoinData = coinData.map(response => {
-      const coin = response.data;
+    const response = await axios.get('https://api.coinpaprika.com/v1/tickers');
+    const sortedCoins = response.data.sort((a,b) => a.rank - b.rank).slice(0,COIN_COUNT);
+    const finalCoinData = sortedCoins.map(coin =>{
       return {
         key : coin.id,
         name : coin.name,
@@ -37,6 +38,7 @@ const App = () =>{
       };
     });
     setCoinData(finalCoinData);
+
   }
 
   useEffect(function(){
@@ -62,22 +64,55 @@ const App = () =>{
      setCoinData(newCoinData);
   }
 
+ 
+
+  const handleBuying = (buyCoinId) =>{
+    var coins = coinData.map(coin => {
+      const newValue = {...coin};
+      if(coin.key === buyCoinId){
+        setAmount(oldValue =>{
+          var computeAmount = oldValue -  newValue.price;
+          if(computeAmount <= 0){
+            setVisible(true);
+            return oldValue;
+          }
+          else{
+              newValue.balance =newValue.balance + 1;
+              return formatPrice(computeAmount);
+          }
+          
+        });
+      }
+      return newValue;
+    });
+    setCoinData(coins);
+  }
+
+  const handleBalance = () =>{
+    setAmount(oldValue => oldValue + 1200);
+  }
   const handleDisplay = () => {
     setShowBalance(oldValue => !oldValue);
   } 
 
     return (
       <AppDiv>
+        
         <Header />
+        <Alert color="warning" isOpen={visible} toggle={onDismiss}>
+          I am an alert and I can be dismissed!
+        </Alert>
         <AccountBalance  
              amount = {amount} 
              showBalance={showBalance} 
              handleDisplay = {handleDisplay}
+             handleBalance = {handleBalance}
         />
         <CoinList 
              coinData = {coinData} 
              refresh = {handleRefresh} 
              showBalance={showBalance}
+             buy = {handleBuying}
         />
       </AppDiv>
     );

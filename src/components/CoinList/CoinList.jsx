@@ -11,19 +11,21 @@ const CoinTable = styled.table`
 
 const Th = styled.th`
 border: 1px solid blanchedalmond;
+padding-block: 15px;
 `;
 
-const CoinList  = ({coinData,refresh,showBalance}) =>{
+const CoinList  = ({coinData,refresh,showBalance,buy}) =>{
   
         return (
-            <CoinTable >
+            <CoinTable>
                 <thead>
                     <tr>
                     <Th>Ticker</Th>
                     <Th>Name</Th>
                     <Th>Price</Th>
                     {showBalance ? <Th>Balance</Th> : null}
-                    <Th>Action</Th>
+                    <Th>Refresh</Th>
+                    {showBalance ? <Th>Actions</Th> : null}
                     </tr>
                 </thead>
                 <tbody>
@@ -37,6 +39,7 @@ const CoinList  = ({coinData,refresh,showBalance}) =>{
                        balance = {balance}
                        refresh = {refresh}
                        showBalance = {showBalance}
+                       buy = {buy}
                     />
                     )
                     }
