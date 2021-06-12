@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import helicopter from './helicopter.png';
+import helicopter from './helicopter.svg';
+import {Button} from 'reactstrap';
 
 const Section = styled.section`
     margin: 40px auto 20px auto;
@@ -24,22 +25,22 @@ const Img = styled.img`
 height: 35px;
 
 `;
-const BalanceButton = styled.button`
-margin-right: 10px;
-cursor: pointer;
-`;
+// const BalanceButton = styled.button`
+// margin-right: 10px;
+// cursor: pointer;
+// `;
 const AccountBalance  = ({amount,showBalance,handleDisplay,handleBalance}) =>{
     const buttonText = showBalance ? 'Hide Balance':'Show Balance';
     let content = "",addBalance = "";
     if(showBalance){
         content = <Span>Balance : ${amount}</Span>
-        addBalance = <BalanceButton onClick ={handleBalance}><Img src={helicopter} alt='Add Balance'/></BalanceButton>
+        addBalance = <Button onClick ={handleBalance}><Img src={helicopter} alt='Add Balance'/></Button>
     }
     return (
         <Section >
             {content}
             {addBalance}
-            <button onClick = {handleDisplay} style={{height: "42px",cursor: "pointer"}}>{buttonText}</button>
+            <Button onClick = {handleDisplay} style={{height: "42px",cursor: "pointer"}}>{buttonText}</Button>
         </Section>
     );
 }
