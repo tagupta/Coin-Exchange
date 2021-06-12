@@ -5,7 +5,7 @@ import Header from './components/Header/Header';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Alert } from 'reactstrap';
-
+import './App.css';
 
 
 const AppDiv = styled.div`
@@ -23,12 +23,14 @@ const App = () =>{
   const [amount , setAmount] = useState(10000);
   const [coinData , setCoinData] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [alertMessage,setAlertMessage] = useState('');
   const onDismiss = () => setVisible(false);
 
   const componentDidMount = async() =>{
     const response = await axios.get('https://api.coinpaprika.com/v1/tickers');
     const sortedCoins = response.data.sort((a,b) => a.rank - b.rank).slice(0,COIN_COUNT);
     const finalCoinData = sortedCoins.map(coin =>{
+      console.log(coin.id);
       return {
         key : coin.id,
         name : coin.name,
@@ -65,7 +67,7 @@ const App = () =>{
   }
 
  
-
+ 
   const handleBuying = (buyCoinId) =>{
     var coins = coinData.map(coin => {
       const newValue = {...coin};
@@ -73,10 +75,12 @@ const App = () =>{
         setAmount(oldValue =>{
           var computeAmount = oldValue -  newValue.price;
           if(computeAmount <= 0){
+            setAlertMessage(`Oops!!! Insufficient Balance for a ${newValue.name}`);
             setVisible(true);
             return oldValue;
           }
           else{
+              setVisible(false);
               newValue.balance =newValue.balance + 1;
               return formatPrice(computeAmount);
           }
@@ -87,10 +91,35 @@ const App = () =>{
     });
     setCoinData(coins);
   }
+  
+  const handleSelling = (sellCoinId) =>{
+    const coins = coinData.map(values => {
+      const newValue = {...values};
+
+      if(newValue.key === sellCoinId){
+        setAmount(oldValue => {
+
+         if(values.balance <= 0){
+          setAlertMessage(`Oops!!! Insufficient ${newValue.name} for selling.`);
+          setVisible(true);
+          return oldValue;
+         }
+         else{
+          setVisible(false);
+          newValue.balance -= 1;
+          return formatPrice(oldValue + newValue.price);
+         }
+        });
+      }
+      return newValue;
+    });
+    setCoinData(coins);
+  }
 
   const handleBalance = () =>{
     setAmount(oldValue => oldValue + 1200);
   }
+
   const handleDisplay = () => {
     setShowBalance(oldValue => !oldValue);
   } 
@@ -99,8 +128,8 @@ const App = () =>{
       <AppDiv>
         
         <Header />
-        <Alert color="warning" isOpen={visible} toggle={onDismiss}>
-          I am an alert and I can be dismissed!
+        <Alert color="warning" isOpen={visible} toggle={onDismiss} style={{width: '500px',display: 'inline-block'}}>
+                  {alertMessage}
         </Alert>
         <AccountBalance  
              amount = {amount} 
@@ -113,6 +142,7 @@ const App = () =>{
              refresh = {handleRefresh} 
              showBalance={showBalance}
              buy = {handleBuying}
+             sell = {handleSelling}
         />
       </AppDiv>
     );

@@ -1,23 +1,25 @@
 import React from 'react';
 import Coin from '../Coin/Coin';
 import styled from 'styled-components';
+import {Table} from 'reactstrap';
 
-const CoinTable = styled.table`
-  margin: 50px auto 50px auto;
-  display: inline-block;
-  border: 1px solid blanchedalmond;
-  border-collapse: collapse;
-`;
+// const CoinTable = styled.table`
+//   margin: 50px auto 50px auto;
+//   display: inline-block;
+//   border: 1px solid blanchedalmond;
+//   border-collapse: collapse;
+// `;
 
 const Th = styled.th`
 border: 1px solid blanchedalmond;
 padding-block: 15px;
+color : cornsilk;
 `;
 
-const CoinList  = ({coinData,refresh,showBalance,buy}) =>{
+const CoinList  = ({coinData,refresh,showBalance,buy,sell}) =>{
   
         return (
-            <CoinTable>
+            <Table striped bordered hover   >
                 <thead>
                     <tr>
                     <Th>Ticker</Th>
@@ -40,11 +42,12 @@ const CoinList  = ({coinData,refresh,showBalance,buy}) =>{
                        refresh = {refresh}
                        showBalance = {showBalance}
                        buy = {buy}
+                       sell = {sell}
                     />
                     )
                     }
                 </tbody>
-        </CoinTable>
+        </Table>
     )
 }
 export default CoinList;

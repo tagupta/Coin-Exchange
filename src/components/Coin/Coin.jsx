@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import {Button} from 'reactstrap';
 
 const TableData = styled.td`
     border:2px solid #cccccc;
     width: 25vh;
-    padding-block: 10px;
+    color : cornsilk;
 `;
-const Button = styled.button`
-  cursor : pointer;
-  padding-block: 5px;
-`;
- const Coin = ({id,name,ticker,price,balance,refresh,showBalance,buy}) => {
+// const Button = styled.button`
+//    font-size: initial;
+// `;
+ const Coin = ({id,name,ticker,price,balance,refresh,showBalance,buy,sell}) => {
    
    const handleClick = (event) => {
        event.preventDefault();
@@ -20,6 +20,10 @@ const Button = styled.button`
    const handleBuy = (event) =>{
     event.preventDefault();
     buy(id);
+   }
+   const handleSell = (event) =>{
+    event.preventDefault();
+    sell(id);
    }
        
         return (
@@ -37,7 +41,7 @@ const Button = styled.button`
                 {showBalance ? <TableData>
                                   <form action="#" method="POST">
                                         <Button style = {{"marginRight": '15px'}} onClick={handleBuy}>Buy</Button>
-                                        <Button >Sell</Button>
+                                        <Button onClick ={handleSell}>Sell</Button>
                                   </form>
                                </TableData> : null }
             </tr>
