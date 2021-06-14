@@ -1,0 +1,8 @@
+.custom-modal-style{
+    width: 650px !important;
+    height : 500px !important;
+    color: cornflowerblue;
+}
+.modal-footer{
+    justify-content: center !important;
+}

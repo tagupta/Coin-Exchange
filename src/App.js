@@ -8,13 +8,15 @@ import { Alert } from 'reactstrap';
 import './App.css';
 
 
+
+
 const AppDiv = styled.div`
   text-align: center;
   background-color: rgb(13, 13, 49);
   color: bisque;
 `;
 const COIN_COUNT = 10;
-
+const TargetURL =  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc';
 const formatPrice = price => parseFloat(Number(price).toFixed(5));
 
 const App = () =>{
@@ -25,17 +27,20 @@ const App = () =>{
   const [visible, setVisible] = useState(false);
   const [alertMessage,setAlertMessage] = useState('');
   const onDismiss = () => setVisible(false);
+  // const [showModal, setShow] = useState(false);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+  
 
   const componentDidMount = async() =>{
-    const response = await axios.get('https://api.coinpaprika.com/v1/tickers');
-    const sortedCoins = response.data.sort((a,b) => a.rank - b.rank).slice(0,COIN_COUNT);
+    const response = await axios.get(TargetURL);
+    const sortedCoins = response.data.sort((a,b) => a.market_cap_rank - b.market_cap_rank).slice(0,COIN_COUNT);
     const finalCoinData = sortedCoins.map(coin =>{
-      console.log(coin.id);
       return {
         key : coin.id,
         name : coin.name,
-        ticker : coin.symbol,
-        price : formatPrice(coin.quotes.USD.price),
+        ticker : (coin.symbol).toUpperCase(),
+        price : formatPrice(coin.current_price),
         balance : 0
       };
     });
@@ -53,8 +58,8 @@ const App = () =>{
 
  
   const handleRefresh = async(clickedId) => {
-     const response = await axios.get(`https://api.coinpaprika.com/v1/tickers/${clickedId}`);
-     const newPrice = response.data.quotes.USD.price;
+     const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${clickedId}`);
+     const newPrice = response.data.market_data.current_price.usd;
      const newCoinData = coinData.map(function(value){
      var newValue = {...value};
        if(newValue.key === clickedId){
@@ -100,7 +105,7 @@ const App = () =>{
         setAmount(oldValue => {
 
          if(values.balance <= 0){
-          setAlertMessage(`Oops!!! Insufficient ${newValue.name} for selling.`);
+          setAlertMessage(`Oops!!! Insufficient ${newValue.name} for sell.`);
           setVisible(true);
           return oldValue;
          }
@@ -144,7 +149,10 @@ const App = () =>{
              buy = {handleBuying}
              sell = {handleSelling}
         />
+       
+       
       </AppDiv>
+      
     );
   
 }

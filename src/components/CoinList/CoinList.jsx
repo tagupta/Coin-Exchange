@@ -3,13 +3,6 @@ import Coin from '../Coin/Coin';
 import styled from 'styled-components';
 import {Table} from 'reactstrap';
 
-// const CoinTable = styled.table`
-//   margin: 50px auto 50px auto;
-//   display: inline-block;
-//   border: 1px solid blanchedalmond;
-//   border-collapse: collapse;
-// `;
-
 const Th = styled.th`
 border: 1px solid blanchedalmond;
 padding-block: 15px;
@@ -28,6 +21,7 @@ const CoinList  = ({coinData,refresh,showBalance,buy,sell}) =>{
                     {showBalance ? <Th>Balance</Th> : null}
                     <Th>Refresh</Th>
                     {showBalance ? <Th>Actions</Th> : null}
+                    <Th>Daily Market cap.</Th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +37,7 @@ const CoinList  = ({coinData,refresh,showBalance,buy,sell}) =>{
                        showBalance = {showBalance}
                        buy = {buy}
                        sell = {sell}
+                       
                     />
                     )
                     }

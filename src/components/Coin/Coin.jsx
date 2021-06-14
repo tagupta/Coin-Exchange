@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {Button} from 'reactstrap';
+import PriceModal from '../PriceModal/PriceModal';
 
 const TableData = styled.td`
     border:2px solid #cccccc;
     width: 25vh;
     color : cornsilk;
 `;
-// const Button = styled.button`
-//    font-size: initial;
-// `;
- const Coin = ({id,name,ticker,price,balance,refresh,showBalance,buy,sell}) => {
+
+const Coin = ({id,name,ticker,price,balance,refresh,showBalance,buy,sell}) => {
    
+  
    const handleClick = (event) => {
        event.preventDefault();
        refresh(id);
@@ -25,11 +25,12 @@ const TableData = styled.td`
     event.preventDefault();
     sell(id);
    }
-       
+       const url = `https://twitter.com/search?q=${name}`;
+
         return (
            
             <tr>
-                <TableData>{name}</TableData>
+                <TableData><a href={url} target="_blank">{name}</a></TableData>
                 <TableData>{ticker}</TableData>
                 <TableData>${price}</TableData>
                 {showBalance ? <TableData>{balance}</TableData> : null}
@@ -44,6 +45,9 @@ const TableData = styled.td`
                                         <Button onClick ={handleSell}>Sell</Button>
                                   </form>
                                </TableData> : null }
+                <TableData >
+                    <PriceModal id = {id}/>
+                </TableData>
             </tr>
         )
     
