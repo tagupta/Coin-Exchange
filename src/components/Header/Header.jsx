@@ -3,8 +3,8 @@ import logo from './logo.svg';
 import styled, {keyframes} from 'styled-components';
 
 const AppHeader = styled.header`
-  background-color: #000000;
-  min-height: 25vh;
+  background-color: rgb(13, 13, 49);
+  min-height: 15vh;
   display: flex;
   flex-direction: row;
   align-items: center;

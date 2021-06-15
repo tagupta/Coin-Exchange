@@ -13,10 +13,10 @@ const PriceModal = (props) =>{
       
         var today = new Date();
         today = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      
+        const chartClass = 'btn btn-info';
         return (
             <div>
-                <Button color="info" onClick={toggle}>Price Chart</Button>
+                <button color="info" onClick={toggle} className={chartClass}>Price Chart</button>
                 <Modal isOpen={modal} toggle={toggle} contentClassName="custom-modal-style">
                     <ModalHeader toggle={toggle}>Graph for {today}</ModalHeader>
                     <ModalBody>

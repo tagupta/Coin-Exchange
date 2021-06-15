@@ -6,13 +6,13 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Alert } from 'reactstrap';
 import './App.css';
-
-
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootswatch/dist/flatly/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/js/all';
 
 
 const AppDiv = styled.div`
   text-align: center;
-  background-color: rgb(13, 13, 49);
   color: bisque;
 `;
 const COIN_COUNT = 10;
@@ -27,9 +27,7 @@ const App = () =>{
   const [visible, setVisible] = useState(false);
   const [alertMessage,setAlertMessage] = useState('');
   const onDismiss = () => setVisible(false);
-  // const [showModal, setShow] = useState(false);
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+
   
 
   const componentDidMount = async() =>{
@@ -72,12 +70,12 @@ const App = () =>{
   }
 
  
- 
-  const handleBuying = (buyCoinId) =>{
-    var coins = coinData.map(coin => {
-      const newValue = {...coin};
-      if(coin.key === buyCoinId){
-        setAmount(oldValue =>{
+ const handleBuying_selling = (check,coinId) =>{
+  var coins = coinData.map(coin => {
+    const newValue = {...coin};
+    if(coin.key === coinId){
+      setAmount(oldValue => {
+        if(check){
           var computeAmount = oldValue -  newValue.price;
           if(computeAmount <= 0){
             setAlertMessage(`Oops!!! Insufficient Balance for a ${newValue.name}`);
@@ -89,37 +87,25 @@ const App = () =>{
               newValue.balance =newValue.balance + 1;
               return formatPrice(computeAmount);
           }
-          
-        });
-      }
-      return newValue;
-    });
-    setCoinData(coins);
-  }
-  
-  const handleSelling = (sellCoinId) =>{
-    const coins = coinData.map(values => {
-      const newValue = {...values};
-
-      if(newValue.key === sellCoinId){
-        setAmount(oldValue => {
-
-         if(values.balance <= 0){
-          setAlertMessage(`Oops!!! Insufficient ${newValue.name} for sell.`);
-          setVisible(true);
-          return oldValue;
-         }
-         else{
-          setVisible(false);
-          newValue.balance -= 1;
-          return formatPrice(oldValue + newValue.price);
-         }
-        });
-      }
-      return newValue;
-    });
-    setCoinData(coins);
-  }
+        }
+        else{
+          if(newValue.balance <= 0){
+            setAlertMessage(`Oops!!! Insufficient ${newValue.name} for sell.`);
+            setVisible(true);
+            return oldValue;
+           }
+           else{
+            setVisible(false);
+            newValue.balance -= 1;
+            return formatPrice(oldValue + newValue.price);
+           }
+        }
+      });
+    }
+     return newValue;
+  });
+  setCoinData(coins);
+ }
 
   const handleBalance = () =>{
     setAmount(oldValue => oldValue + 1200);
@@ -146,8 +132,8 @@ const App = () =>{
              coinData = {coinData} 
              refresh = {handleRefresh} 
              showBalance={showBalance}
-             buy = {handleBuying}
-             sell = {handleSelling}
+             handleBuying_selling = {handleBuying_selling}
+             
         />
        
        

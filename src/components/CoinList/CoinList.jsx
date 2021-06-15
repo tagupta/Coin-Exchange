@@ -6,21 +6,22 @@ import {Table} from 'reactstrap';
 const Th = styled.th`
 border: 1px solid blanchedalmond;
 padding-block: 15px;
-color : cornsilk;
+vertical-align: middle;
+
 `;
 
-const CoinList  = ({coinData,refresh,showBalance,buy,sell}) =>{
+const CoinList  = ({coinData,refresh,showBalance,handleBuying_selling}) =>{
   
         return (
-            <Table striped bordered hover   >
+            <Table striped bordered hover   style={{marginTop:'50px'}}>
                 <thead>
                     <tr>
                     <Th>Ticker</Th>
                     <Th>Name</Th>
                     <Th>Price</Th>
-                    {showBalance ? <Th>Balance</Th> : null}
+                    <Th>Coins</Th>
                     <Th>Refresh</Th>
-                    {showBalance ? <Th>Actions</Th> : null}
+                    <Th>Actions</Th>
                     <Th>Daily Market cap.</Th>
                     </tr>
                 </thead>
@@ -35,8 +36,7 @@ const CoinList  = ({coinData,refresh,showBalance,buy,sell}) =>{
                        balance = {balance}
                        refresh = {refresh}
                        showBalance = {showBalance}
-                       buy = {buy}
-                       sell = {sell}
+                       handleBuying_selling = {handleBuying_selling}
                        
                     />
                     )
